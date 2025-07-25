@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+
+    <meta charset="UTF-8" />
+    <title>柏崎スタンプラリー</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- QRコード -->
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
+    <!-- style sheet-->
+    <link rel="stylesheet" href="../css/app_screen.css">
+
+</head>
+
+
+
+<body>
+
+<!------------------------------画面構成------------------------------>
+<!-- 構内マップ -->
+<div id="campus-map-container">
+    <button id="back-button">← 市内地図へ戻る</button>
+    <div id="campus-map">
+        <div class="spot" data-id="1" style="left: 50%; top: 5%;">1</div>
+        <div class="spot" data-id="2" style="left: 40%; top: 30%;">2</div>
+        <div class="spot" data-id="3" style="left: 10%; top: 20%;">3</div>
+        <div class="spot" data-id="4" style="left: 60%; top: 30%;">4</div>
+    </div>
+
+    <!-- QR画面 -->
+    <div id="reader-container">
+        <button id="close-btn">✕</button>
+        <div id="reader"></div>
+    </div>
+
+    <button id="qr-button">QR</button>
+    <div id="result"></div>
+</div>
+
+  <!------------------------------------------------------------------>
+
+<script>
+    let map;
+    let marker;
+    let html5QrCode;
+
+    //------------------------------------------------------------------
+    window.onload = function() {
+        //TODO データベースから全スポットの情報を取得。
+
+        document.querySelectorAll('.spot').forEach(spot => {
+            const id = parseInt(spot.dataset.id);
+            //const isCleared = データベースの情報 (database [id])
+            if (isCleared){
+                spot.classList.toggle('cleared', isCleared);
+            }
+        });
+    };
+
+
+    // QR起動
+    document.getElementById("qr-button").addEventListener("click", () => {
+        const container = document.getElementById("reader-container");
+        const result = document.getElementById("result");
+        container.style.display = "block";
+        result.textContent = "";
+
+        html5QrCode = new Html5Qrcode("reader");
+
+        html5QrCode
+        .start(
+            { facingMode: "environment" },
+            {
+                fps: 10,
+                qrbox: { width: 100, height: 100 }
+            },
+            (decodedText) => {
+                result.innerHTML = `読み取り: <br>${decodedText}`;
+                html5QrCode.stop().then(() => {
+                    container.style.display = "none";
+                });
+
+                //TODO 読み取ったデータをサーバーに送信し、データベースを更新。読み取ったデータは変数に保持
+
+                if (decodedText.startsWith("geo:")) {
+                    const coords = decodedText.slice(4).split(",");
+                    const lat = parseFloat(coords[0]);
+                    const lng = parseFloat(coords[1]);
+                    setMapLocation(lat, lng, "QR地点");
+                }
+                else if (decodedText.startsWith("http://") || decodedText.startsWith("https://")) {
+                    window.location.href = decodedText;
+                }
+                else {
+                result.innerHTML += "<br>（URLや位置情報ではありません）";
+                }
+            },
+            (error) => {
+                // 読み取り失敗は無視
+            }
+        )
+        .catch((err) => {
+            console.error("QRカメラ起動失敗:", err);
+            alert("カメラの起動に失敗しました。権限やブラウザ設定をご確認ください。");
+            container.style.display = "none";
+        });
+    });
+
+    // カメラを閉じる
+    document.getElementById("close-btn").addEventListener("click", () => {
+        const container = document.getElementById("reader-container");
+        if (html5QrCode) {
+            html5QrCode.stop().then(() => {
+            container.style.display = "none";
+            });
+        } 
+        else {
+        container.style.display = "none";
+        }
+    });
+
+    // 全体マップに戻るボタン
+    document.getElementById('back-button').addEventListener('click', () => {
+        location.href = "allmap.html";
+    });
+
+</script>
+</body>
+</html>
