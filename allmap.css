@@ -24,7 +24,7 @@ body {
 }
 
 #toggle_text {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -33,7 +33,7 @@ body {
     text-align: center;
     padding: 10px;
     font-size: 1em;
-    z-index: 10;
+    z-index: 9999;
     user-select: none;
 }
 
