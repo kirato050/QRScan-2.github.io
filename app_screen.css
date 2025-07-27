@@ -21,7 +21,7 @@ html, body {
     position: relative;
     height: 40vh;
     width: 100%;
-    background-image: url("../image/map1.PNG");
+    background-image: url("./map1.PNG");
     background-size: cover;
 }
 
