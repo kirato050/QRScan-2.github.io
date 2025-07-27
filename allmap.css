@@ -7,20 +7,32 @@ body {
     color: #fff;
 }
 
-#map_screen{
-    height: 100dvh;
+#map_screen {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: space-between;
+    align-items: stretch;
     background: #fff;
     color: #000;
 }
 
-#map{
-    height: calc(100dvh - 50px);
+#map {
+    flex: 1;
     width: 100%;
 }
+
+#toggle_text {
+    padding: 10px;
+    font-size: 1em;
+    text-align: center;
+    background-color: #e0f0f8;
+    color: #000;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    user-select: none;
+}
+
 
 #description {
     height: 50px;
