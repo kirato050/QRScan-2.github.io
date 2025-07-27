@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8" />
     <title>全体マップ</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    
+    <!-- PWA用のmeta設定 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
 
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -30,8 +35,24 @@
     </div>
 
     <script>
+        // ビューポートの高さを動的に調整する関数
+        function setViewportHeight() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        // 初期設定とリサイズ時の調整
+        setViewportHeight();
+        window.addEventListener('resize', setViewportHeight);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setViewportHeight, 100);
+        });
+
         // DOM読み込み完了後に実行
         document.addEventListener('DOMContentLoaded', function() {
+            // ビューポート高さを再調整
+            setTimeout(setViewportHeight, 100);
+            
             // マップ設定
             const niitechLatLng = [37.339278, 138.578972];
             const map = L.map('map').setView(niitechLatLng, 16);
@@ -93,6 +114,11 @@
                 bottomDesc.style.backgroundColor = "#fff3cd";
                 bottomDesc.style.color = "#856404";
             }
+
+            // マップサイズの調整
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 300);
         });
     </script>
 </body>
