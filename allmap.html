@@ -109,12 +109,7 @@
                         setTimeout(() => {
                             location.href = "app_screen.html";
                         }, 2000);
-                    } else {
-                        const distanceKm = (distance / 1000).toFixed(1);
-                        bottomDesc.textContent = `新潟工科大学まで約${distanceKm}km離れています`;
-                        bottomDesc.style.backgroundColor = "#f8f9fa";
-                        bottomDesc.style.color = "#666";
-                    }
+                    } 
                 },
                 (error) => {
                     console.error('位置情報取得エラー:', error);
