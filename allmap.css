@@ -5,31 +5,36 @@ body {
     font-family: sans-serif;
     background-color: #000;
     color: #fff;
+    overflow: hidden; /* ← マップとテキスト以外の余白を排除 */
 }
 
 #map_screen {
-    display: flex;
-    flex-direction: column;
-    height: 100dvh; /* ← スマホ対応の高さに変更（従来の100vhより信頼性が高い） */
-    background: #fff;
-    color: #000;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
 }
 
 #map {
-    flex: 1;  /* ← これにより、残りの高さをマップが自動で埋める */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
     width: 100%;
+    z-index: 1;
 }
 
 #toggle_text {
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.9);
     color: #000;
     text-align: center;
-    padding: 12px;
+    padding: 10px;
     font-size: 1em;
-    z-index: 1000;
+    z-index: 10;
     user-select: none;
 }
 
