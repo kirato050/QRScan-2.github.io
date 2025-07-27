@@ -18,7 +18,7 @@ body {
 }
 
 #map{
-    height: 50vh;
+    height: calc(100vh - 50px);
     width: 100%;
 }
 
