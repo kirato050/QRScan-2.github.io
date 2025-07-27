@@ -25,16 +25,18 @@ body {
 
 #toggle_text {
     position: fixed;
-    bottom: 0;
+    bottom: env(safe-area-inset-bottom, 10px); /* iPhone の notch 対策も含む */
     left: 0;
     width: 100%;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.95);
     color: #000;
     text-align: center;
-    padding: 10px;
+    padding: 16px 12px 20px;  /* ← 少し大きめに調整 */
     font-size: 1em;
     z-index: 9999;
     user-select: none;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }
 
 
