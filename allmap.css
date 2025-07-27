@@ -12,7 +12,6 @@ body {
     position: relative;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
 }
 
 #map {
@@ -21,7 +20,7 @@ body {
     left: 0;
     height: 100%;
     width: 100%;
-    z-index: 1;
+    z-index: 0;
 }
 
 #toggle_text {
