@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-
     <meta charset="UTF-8" />
     <title>全体マップ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,27 +11,26 @@
 
     <!-- style sheet-->
     <link rel="stylesheet" href="./allmap.css">
-
 </head>
 
-
-
 <body>
-<!-- TODO　Cookieによるユーザー認識 -->
-
-    <!-- 柏崎市地図 -->
-    <div id = "map_screen">
+    <div id="map_screen">
+        <!-- 上部の説明文 -->
+        <div id="top_description">
+            📍 柏崎スタンプラリー
+        </div>
+        
+        <!-- マップ本体 -->
         <div id="map"></div>
+        
+        <!-- 下部の説明文 -->
+        <div id="bottom_description">
+            現在地から300m以内にいる場合、自動的に構内マップに切り替わります
+        </div>
     </div>
-
-    <div id = "map_screen">
-        <div id="description">現在地と新潟工科大学の位置を表示しています</div>
-        <div id="map"></div>
-    </div>
-
 
     <script>
-        //マップ設定
+        // マップ設定
         const niitechLatLng = [37.339278, 138.578972];
         const map = L.map('map').setView(niitechLatLng, 16);
 
@@ -46,7 +44,7 @@
                 location.href = "app_screen.html";
             });
 
-        // 現在地取得して300m以内なら自動で切替  TODO 読み込み時ではなく、随時できるようにしたい
+        // 現在地取得して300m以内なら自動で切替
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(position => {
                 const lat = position.coords.latitude;
@@ -56,17 +54,32 @@
                 const redIcon = L.divIcon({ className: 'current-location-pin' });
                 L.marker([lat, lng], { icon: redIcon }).addTo(map).bindPopup("現在地").openPopup();
 
+                // 距離に応じて下部の説明文を更新
+                const bottomDesc = document.getElementById('bottom_description');
                 if (distance <= 300) {
-                    location.href = "app_screen.html";
-                    }
-                },
-                () => {alert("位置情報の取得に失敗しました。");}
-            );
+                    bottomDesc.textContent = "キャンパス内にいます！構内マップに自動切替します...";
+                    bottomDesc.style.backgroundColor = "#d4edda";
+                    bottomDesc.style.color = "#155724";
+                    setTimeout(() => {
+                        location.href = "app_screen.html";
+                    }, 2000);
+                } else {
+                    const distanceKm = (distance / 1000).toFixed(1);
+                    bottomDesc.textContent = `新潟工科大学まで約${distanceKm}km離れています`;
+                }
+            },
+            (error) => {
+                const bottomDesc = document.getElementById('bottom_description');
+                bottomDesc.textContent = "位置情報の取得に失敗しました。手動でマーカーをクリックしてください。";
+                bottomDesc.style.backgroundColor = "#f8d7da";
+                bottomDesc.style.color = "#721c24";
+            });
+        } else {
+            const bottomDesc = document.getElementById('bottom_description');
+            bottomDesc.textContent = "この端末では位置情報が利用できません。";
+            bottomDesc.style.backgroundColor = "#fff3cd";
+            bottomDesc.style.color = "#856404";
         }
-        else {
-            alert("この端末では位置情報が利用できません。");
-        }
-
     </script>
 </body>
 </html>
