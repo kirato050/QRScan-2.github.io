@@ -25,10 +25,26 @@
         <div id="map"></div>
     </div>
 
-    <div id = "map_screen">
-        <div id="description">現在地と新潟工科大学の位置を表示しています</div>
+    <div id="map_screen">
         <div id="map"></div>
+        <div id="toggle_text" onclick="toggleExplanation()">
+            位置情報がスタンプラリー実施場所から300m以内に入ると自動的に構内マップに切り替わります→
+        </div>
     </div>
+
+    <script>
+    // 説明文の切り替え
+    function toggleExplanation() {
+        const text = document.getElementById("toggle_text");
+        if (text.dataset.state === "first") {
+            text.innerText = "←地図上のピンをタップすることでも構内マップに切り替わります";
+            text.dataset.state = "second";
+        } else {
+            text.innerText = "位置情報がスタンプラリー実施場所から300m以内に入ると自動的に構内マップに切り替わります→";
+            text.dataset.state = "first";
+        }
+    }
+    </script>
 
 
     <script>
