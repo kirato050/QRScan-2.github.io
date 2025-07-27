@@ -22,7 +22,7 @@
     <div id="map_screen">
         <!-- 上部の説明文 -->
         <div id="top_description">
-            📍 柏崎スタンプラリー
+            📍 新潟工科大学キャンパスマップ
         </div>
         
         <!-- マップ本体 -->
@@ -53,6 +53,25 @@
             // ビューポート高さを再調整
             setTimeout(setViewportHeight, 100);
             
+            // 下部説明文の要素を取得（最初に取得）
+            const bottomDesc = document.getElementById('bottom_description');
+            
+            // デバッグ用のログ出力
+            console.log('下部説明文要素:', bottomDesc);
+            console.log('要素のスタイル:', bottomDesc ? window.getComputedStyle(bottomDesc) : 'null');
+            console.log('要素の位置:', bottomDesc ? bottomDesc.getBoundingClientRect() : 'null');
+            
+            // 要素が存在することを確認
+            if (bottomDesc) {
+                bottomDesc.textContent = "テスト：この文字が見えますか？";
+                bottomDesc.style.display = "flex";
+                bottomDesc.style.visibility = "visible";
+                console.log('下部説明文を設定しました');
+            } else {
+                console.error('下部説明文の要素が見つかりません！');
+                return;
+            }
+            
             // マップ設定
             const niitechLatLng = [37.339278, 138.578972];
             const map = L.map('map').setView(niitechLatLng, 16);
@@ -66,13 +85,6 @@
                 .on('click', () => {
                     location.href = "app_screen.html";
                 });
-
-            // 下部説明文の要素を取得
-            const bottomDesc = document.getElementById('bottom_description');
-            
-            // 初期表示確認用
-            console.log('下部説明文要素:', bottomDesc);
-            console.log('初期テキスト:', bottomDesc ? bottomDesc.textContent : 'null');
 
             // 現在地取得して300m以内なら自動で切替
             if ("geolocation" in navigator) {
@@ -118,6 +130,8 @@
             // マップサイズの調整
             setTimeout(() => {
                 map.invalidateSize();
+                // 下部説明文の再確認
+                console.log('マップ調整後の下部説明文:', bottomDesc.getBoundingClientRect());
             }, 300);
         });
     </script>
