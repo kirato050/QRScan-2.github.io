@@ -2,18 +2,27 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
+    height: 100dvh; /* 動的ビューポート高度 */
     font-family: sans-serif;
     background-color: #000;
     color: #fff;
     overflow: hidden;
+    /* モバイル用の追加設定 */
+    -webkit-overflow-scrolling: touch;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 #map_screen {
     height: 100vh;
+    height: 100dvh; /* 動的ビューポート高度 */
     display: flex;
     flex-direction: column;
     background: #fff;
     color: #000;
+    position: relative;
 }
 
 #top_description {
@@ -67,6 +76,20 @@ body {
 
 /* スマートフォン用の追加スタイル */
 @media (max-width: 768px) {
+    body {
+        /* iOS Safari対応 */
+        height: -webkit-fill-available;
+        height: 100dvh;
+    }
+    
+    #map_screen {
+        height: -webkit-fill-available;
+        height: 100dvh;
+        /* モバイル用の安全エリア対応 */
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
     #top_description {
         font-size: 1.0em;
         height: 50px;
@@ -79,11 +102,24 @@ body {
         padding: 10px;
         background-color: #f8f9fa !important;
         border-top: 2px solid #e9ecef;
+        /* 下部に固定 */
+        position: relative;
+        z-index: 1000;
     }
 }
 
 /* 非常に小さい画面用 */
 @media (max-width: 480px) {
+    body {
+        height: -webkit-fill-available;
+        height: 100dvh;
+    }
+    
+    #map_screen {
+        height: -webkit-fill-available;
+        height: 100dvh;
+    }
+    
     #top_description {
         font-size: 0.9em;
         height: 45px;
@@ -97,6 +133,19 @@ body {
         background-color: #f8f9fa !important;
         border-top: 2px solid #e9ecef;
         font-weight: bold;
+        position: relative;
+        z-index: 1000;
+    }
+}
+
+/* iOS Safari 専用の修正 */
+@supports (-webkit-appearance: none) {
+    body {
+        height: -webkit-fill-available;
+    }
+    
+    #map_screen {
+        height: -webkit-fill-available;
     }
 }
 
