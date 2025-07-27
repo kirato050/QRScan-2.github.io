@@ -8,17 +8,15 @@ body {
 }
 
 #map_screen {
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch;
+    height: 100dvh; /* ← スマホ対応の高さに変更（従来の100vhより信頼性が高い） */
     background: #fff;
     color: #000;
 }
 
 #map {
-    flex: 1;
+    flex: 1 1 auto;  /* ← これにより、残りの高さをマップが自動で埋める */
     width: 100%;
 }
 
@@ -29,9 +27,9 @@ body {
     background-color: #e0f0f8;
     color: #000;
     border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
     user-select: none;
 }
+
 
 .current-location-pin {
     background-color: red;
